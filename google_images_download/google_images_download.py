@@ -428,17 +428,9 @@ class googleimagesdownload:
         search_keyword = []
         with codecs.open(file_name, 'r', encoding='utf-8-sig') as f:
             if '.csv' in file_name:
-                for line in f:
-                    if line in ['\n', '\r\n']:
-                        pass
-                    else:
-                        search_keyword.append(line.replace('\n', '').replace('\r', ''))
+                read_csv(search_keyword, f)
             elif '.txt' in file_name:
-                for line in f:
-                    if line in ['\n', '\r\n']:
-                        pass
-                    else:
-                        search_keyword.append(line.replace('\n', '').replace('\r', ''))
+                read_txt(search_keyword, f)
             else:
                 print("Invalid file type: Valid file types are either .txt or .csv \n"
                       "exiting...")
@@ -482,7 +474,7 @@ class googleimagesdownload:
     def download_image_thumbnail(self,image_url,main_directory,dir_name,return_image_name,print_urls,socket_timeout,print_size,no_download):
         if print_urls or no_download:
             print("Image URL: " + image_url)
-        if no_download:
+        else:
             return "success","Printed url without downloading"
         try:
             req = Request(image_url, headers={
@@ -923,7 +915,24 @@ def Incorrect_version(self, object_raw):
         final_object = (json.loads(self.repair(object_raw)))
     except:
         final_object = ""
-        return  final_object
+        return final_object
+
+
+def read_csv(search_keyword, f):
+    for line in f:
+        if line in ['\n', '\r\n']:
+            pass
+        else:
+            search_keyword.append(line.replace('\n', '').replace('\r', ''))
+
+
+def read_txt(search_keyword, f):
+    for line in f:
+        if line in ['\n', '\r\n']:
+            pass
+        else:
+            search_keyword.append(line.replace('\n', '').replace('\r', ''))
+
 #------------- Main Program -------------#
 def main():
     records = user_input()

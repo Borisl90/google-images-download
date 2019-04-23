@@ -427,10 +427,8 @@ class googleimagesdownload:
     def keywords_from_file(self,file_name):
         search_keyword = []
         with codecs.open(file_name, 'r', encoding='utf-8-sig') as f:
-            if '.csv' in file_name:
-                read_csv(search_keyword, f)
-            elif '.txt' in file_name:
-                read_txt(search_keyword, f)
+            if '.csv' in file_name or '.txt' in file_name:
+                read_file(search_keyword, f)
             else:
                 print("Invalid file type: Valid file types are either .txt or .csv \n"
                       "exiting...")
@@ -666,9 +664,7 @@ class googleimagesdownload:
         count = 1
         while count < limit+1:
             object, end_content = self._get_next_item(page)
-            if object == "no_links":
-                break
-            elif object == "":
+            if object == "":
                 page = page[end_content:]
             elif arguments['offset'] and count < int(arguments['offset']):
                     count += 1
@@ -688,7 +684,6 @@ class googleimagesdownload:
                     if arguments['thumbnail']:
                         download_status, download_message_thumbnail = self.download_image_thumbnail(object['image_thumbnail_url'],main_directory,dir_name,return_image_name,arguments['print_urls'],arguments['socket_timeout'],arguments['print_size'],arguments['no_download'])
                         print(download_message_thumbnail)
-
                     count += 1
                     object['image_filename'] = return_image_name
                     items.append(object)  # Append all the links in the list named 'Links'
@@ -710,7 +705,7 @@ class googleimagesdownload:
 
 
     # Bulk Download
-    def download(self,arguments):
+    def download(self, arguments):
 
         #for input coming from other python files
         if __name__ != "__main__":
@@ -918,20 +913,13 @@ def Incorrect_version(self, object_raw):
         return final_object
 
 
-def read_csv(search_keyword, f):
+def read_file(search_keyword, f):
     for line in f:
         if line in ['\n', '\r\n']:
             pass
         else:
             search_keyword.append(line.replace('\n', '').replace('\r', ''))
 
-
-def read_txt(search_keyword, f):
-    for line in f:
-        if line in ['\n', '\r\n']:
-            pass
-        else:
-            search_keyword.append(line.replace('\n', '').replace('\r', ''))
 
 #------------- Main Program -------------#
 def main():

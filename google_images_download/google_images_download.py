@@ -390,18 +390,19 @@ class googleimagesdownload:
     def build_search_url(self,search_term,params,url,similar_images,specific_site,safe_search):
         #check safe_search
         safe_search_string = "&safe=active"
+        google_search_string = "https://www.google.com/search?q="
         # check the args and choose the URL
         if url:
             url = url
         elif similar_images:
             print(similar_images)
             keywordem = self.similar_images(similar_images)
-            url = 'https://www.google.com/search?q=' + keywordem + '&espv=2&biw=1366&bih=667&site=webhp&source=lnms&tbm=isch&sa=X&ei=XosDVaCXD8TasATItgE&ved=0CAcQ_AUoAg'
+            url = google_search_string + keywordem + '&espv=2&biw=1366&bih=667&site=webhp&source=lnms&tbm=isch&sa=X&ei=XosDVaCXD8TasATItgE&ved=0CAcQ_AUoAg'
         elif specific_site:
-            url = 'https://www.google.com/search?q=' + quote(
+            url = google_search_string + quote(
                 search_term.encode('utf-8')) + '&as_sitesearch=' + specific_site + '&espv=2&biw=1366&bih=667&site=webhp&source=lnms&tbm=isch' + params + '&sa=X&ei=XosDVaCXD8TasATItgE&ved=0CAcQ_AUoAg'
         else:
-            url = 'https://www.google.com/search?q=' + quote(
+            url = google_search_string + quote(
                 search_term.encode('utf-8')) + '&espv=2&biw=1366&bih=667&site=webhp&source=lnms&tbm=isch' + params + '&sa=X&ei=XosDVaCXD8TasATItgE&ved=0CAcQ_AUoAg'
 
         #safe search check

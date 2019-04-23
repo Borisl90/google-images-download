@@ -391,6 +391,7 @@ class googleimagesdownload:
         #check safe_search
         safe_search_string = "&safe=active"
         google_search_string = "https://www.google.com/search?q="
+        start_url = google_search_string + "quote(search_term.encode('utf-8'))"
         # check the args and choose the URL
         if url:
             url = url

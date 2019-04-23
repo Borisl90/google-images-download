@@ -430,15 +430,15 @@ class googleimagesdownload:
 
 
     #measures the file size
-    def file_size(self,file_path):
+    def file_size(self, file_path):
         if os.path.isfile(file_path):
             file_info = os.stat(file_path)
             size = file_info.st_size
-            for x in ['bytes', 'KB', 'MB', 'GB', 'TB']:
-                if size < 1024.0:
-                    return "%3.1f %s" % (size, x)
-                size /= 1024.0
-            return size
+            size2=get_size(size)
+            return size2
+
+
+
 
     #keywords from file
     def keywords_from_file(self,file_name):
@@ -894,6 +894,13 @@ class googleimagesdownload:
         if arguments['print_paths']:
             print(paths)
         return paths
+
+def get_size(self, size):
+    for x in ['bytes', 'KB', 'MB', 'GB', 'TB']:
+        if size < 1024.0:
+            return "%3.1f %s" % (size, x)
+        size /= 1024.0
+    return size
 
 #------------- Main Program -------------#
 def main():

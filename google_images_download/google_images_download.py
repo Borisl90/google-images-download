@@ -155,7 +155,7 @@ class googleimagesdownload:
 
 
     # Download Page for more than 100 images
-    def download_extended_page(self,url,chromedriver):
+    def download_extended_page(self, url, chromedriver):
         from selenium import webdriver
         from selenium.webdriver.common.keys import Keys
         if sys.version_info[0] < 3:
@@ -181,28 +181,7 @@ class googleimagesdownload:
 
         element = browser.find_element_by_tag_name("body")
         # Scroll down
-        for i in range(30):
-            element.send_keys(Keys.PAGE_DOWN)
-            time.sleep(0.3)
-
-        try:
-            browser.find_element_by_id("smb").click()
-            for i in range(50):
-                element.send_keys(Keys.PAGE_DOWN)
-                time.sleep(0.3)  # bot id protection
-        except:
-            for i in range(10):
-                element.send_keys(Keys.PAGE_DOWN)
-                time.sleep(0.3)  # bot id protection
-
-        print("Reached end of Page.")
-        time.sleep(0.5)
-
-        source = browser.page_source #page source
-        #close the browser
-        browser.close()
-
-        return source
+        get_source(element, browser)
 
 
     #Correcting the escape characters for python2
@@ -901,6 +880,32 @@ def get_size(self, size):
             return "%3.1f %s" % (size, x)
         size /= 1024.0
     return size
+
+
+def get_source(element, browser):
+    for i in range(30):
+        element.send_keys(Keys.PAGE_DOWN)
+        time.sleep(0.3)
+
+    try:
+        browser.find_element_by_id("smb").click()
+        for i in range(50):
+            element.send_keys(Keys.PAGE_DOWN)
+            time.sleep(0.3)  # bot id protection
+    except:
+        for i in range(10):
+            element.send_keys(Keys.PAGE_DOWN)
+            time.sleep(0.3)  # bot id protection
+
+    print("Reached end of Page.")
+    time.sleep(0.5)
+
+    source = browser.page_source  # page source
+    # close the browser
+    browser.close()
+
+    return source
+
 
 #------------- Main Program -------------#
 def main():

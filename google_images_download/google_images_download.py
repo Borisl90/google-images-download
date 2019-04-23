@@ -751,11 +751,7 @@ class googleimagesdownload:
         else:
             limit = 100
 
-        if arguments['url']:
-            current_time = str(datetime.datetime.now()).split('.')[0]
-            search_keyword = [current_time.replace(":", "_")]
-
-        if arguments['similar_images']:
+        if arguments['url'] or arguments['similar_images']:
             current_time = str(datetime.datetime.now()).split('.')[0]
             search_keyword = [current_time.replace(":", "_")]
 

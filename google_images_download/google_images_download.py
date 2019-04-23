@@ -50,16 +50,7 @@ def user_input():
     object_check = vars(config_file_check[0])
 
     if object_check['config_file'] != '':
-        records = []
-        json_file = json.load(open(config_file_check[0].config_file))
-        for record in range(0,len(json_file['Records'])):
-            arguments = {}
-            for i in args_list:
-                arguments[i] = None
-            for key, value in json_file['Records'][record].items():
-                arguments[key] = value
-            records.append(arguments)
-        records_count = len(records)
+        records_count = get_records_count(config_file_check)
     else:
         # Taking command line arguments from users
         parser = argparse.ArgumentParser()
@@ -117,6 +108,19 @@ def user_input():
         records = []
         records.append(arguments)
     return records
+
+
+def get_records_count(config_file_check):
+    records = []
+    json_file = json.load(open(config_file_check[0].config_file))
+    for record in range(0, len(json_file['Records'])):
+        arguments = {}
+        for i in args_list:
+            arguments[i] = None
+        for key, value in json_file['Records'][record].items():
+            arguments[key] = value
+        records.append(arguments)
+    return len(records)
 
 
 class googleimagesdownload:

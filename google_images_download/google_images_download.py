@@ -903,18 +903,27 @@ def get_cur_version(self, s):
     version = (3, 0)
     cur_version = sys.version_info
     if cur_version >= version:  # python3
-        try:
-            object_decode = bytes(object_raw, "utf-8").decode("unicode_escape")
-            final_object = json.loads(object_decode)
-        except:
-            final_object = ""
+        final_object = correct_version(object_raw)
     else:  # python2
-        try:
-            final_object = (json.loads(self.repair(object_raw)))
-        except:
-            final_object = ""
+        final_object = Incorrect_version(self, object_raw)
     return final_object, end_object
 
+
+def correct_version(object_raw):
+    try:
+        object_decode = bytes(object_raw, "utf-8").decode("unicode_escape")
+        final_object = json.loads(object_decode)
+    except:
+        final_object = ""
+    return final_object
+
+
+def Incorrect_version(self, object_raw):
+    try:
+        final_object = (json.loads(self.repair(object_raw)))
+    except:
+        final_object = ""
+        return  final_object
 #------------- Main Program -------------#
 def main():
     records = user_input()

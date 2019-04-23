@@ -654,32 +654,15 @@ class googleimagesdownload:
 
 
     # Finding 'Next Image' from the given raw page
-    def _get_next_item(self,s):
+    def _get_next_item(self, s):
         start_line = s.find('rg_meta notranslate')
         if start_line == -1:  # If no links are found then give an error!
             end_quote = 0
             link = "no_links"
             return link, end_quote
         else:
-            start_line = s.find('class="rg_meta notranslate">')
-            start_object = s.find('{', start_line + 1)
-            end_object = s.find('</div>', start_object + 1)
-            object_raw = str(s[start_object:end_object])
-            #remove escape characters based on python version
-            version = (3, 0)
-            cur_version = sys.version_info
-            if cur_version >= version: #python3
-                try:
-                    object_decode = bytes(object_raw, "utf-8").decode("unicode_escape")
-                    final_object = json.loads(object_decode)
-                except:
-                    final_object = ""
-            else:  #python2
-                try:
-                    final_object = (json.loads(self.repair(object_raw)))
-                except:
-                    final_object = ""
-            return final_object, end_object
+            return get_cur_version(self, s)
+
 
 
     # Getting all links with the help of '_images_get_next_image'
@@ -910,6 +893,27 @@ def get_source(element, browser):
 
     return source
 
+
+def get_cur_version(self, s):
+    start_line = s.find('class="rg_meta notranslate">')
+    start_object = s.find('{', start_line + 1)
+    end_object = s.find('</div>', start_object + 1)
+    object_raw = str(s[start_object:end_object])
+    # remove escape characters based on python version
+    version = (3, 0)
+    cur_version = sys.version_info
+    if cur_version >= version:  # python3
+        try:
+            object_decode = bytes(object_raw, "utf-8").decode("unicode_escape")
+            final_object = json.loads(object_decode)
+        except:
+            final_object = ""
+    else:  # python2
+        try:
+            final_object = (json.loads(self.repair(object_raw)))
+        except:
+            final_object = ""
+    return final_object, end_object
 
 #------------- Main Program -------------#
 def main():

@@ -1,5 +1,3 @@
-
-
 import argparse
 import json
 
@@ -10,6 +8,7 @@ args_list = ["keywords", "keywords_from_file", "prefix_keywords", "suffix_keywor
              "print_urls", "print_size", "print_paths", "metadata", "extract_metadata", "socket_timeout",
              "thumbnail", "language", "prefix", "chromedriver", "related_images", "safe_search", "no_numbering",
              "offset", "no_download"]
+
 
 def get_records_count(config_file_check):
     records = []

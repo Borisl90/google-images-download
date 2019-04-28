@@ -460,61 +460,6 @@ class googleimagesdownload:
             download_message = "IOError on an image...trying next one..." + " Error: " + str(e)
         return download_status, download_message
 
-    def func1(self, image_url, socket_timeout, prefix, req, image_format, no_numbering, main_directory, dir_name, count,
-              print_size):
-        # timeout time to download an image
-        if socket_timeout:
-            timeout = float(socket_timeout)
-        else:
-            timeout = 10
-
-        response = urlopen(req, None, timeout)
-        data = response.read()
-        response.close()
-
-        # keep everything after the last '/'
-        image_name = str(image_url[(image_url.rfind('/')) + 1:])
-        # if no extension then add it
-        # remove everything after the image name
-        if image_format == "":
-            image_name = image_name + "." + "jpg"
-        elif image_format == "jpeg":
-            image_name = image_name[:image_name.find(image_format) + 4]
-        else:
-            image_name = image_name[:image_name.find(image_format) + 3]
-
-        # prefix name in image
-        if prefix:
-            prefix = prefix + " "
-        else:
-            prefix = ''
-
-        if no_numbering:
-            path = main_directory + "/" + dir_name + "/" + prefix + image_name
-        else:
-            path = main_directory + "/" + dir_name + "/" + prefix + str(count) + ". " + image_name
-
-        try:
-            output_file = open(path, 'wb')
-            output_file.write(data)
-            output_file.close()
-            absolute_path = os.path.abspath(path)
-        except OSError as e:
-            download_status = 'fail'
-            download_message = "OSError on an image...trying next one..." + " Error: " + str(e)
-            return_image_name = ''
-            absolute_path = ''
-
-        # return image name back to calling method to use it for thumbnail downloads
-        download_status = 'success'
-        download_message = "Completed Image ====> " + prefix + str(count) + ". " + image_name
-        return_image_name = prefix + str(count) + ". " + image_name
-
-        # image size parameter
-        if print_size:
-            print("Image Size: " + str(self.file_size(path)))
-        return download_status, download_message, return_image_name, absolute_path
-
     # Download Images
     def download_image(self, image_url, image_format, main_directory, dir_name, count, print_urls, socket_timeout,
                        prefix, print_size, no_numbering, no_download):
